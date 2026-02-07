@@ -1,0 +1,35 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies (ตัวการที่ทำให้ไฟล์เยอะ ห้ามเอาขึ้นเด็ดขาด)
+node_modules
+.pnpm-store
+
+# Dist / Build (ไฟล์ที่ Build แล้ว ไม่ต้องเอาขึ้น)
+dist
+dist-ssr
+build
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs
+*.njsproj
+*.sln
+*.sw?
+
+# Environment variables (สำคัญมาก เรื่องความปลอดภัย)
+.env
+.env.*
+!.env.example
+.vercel
