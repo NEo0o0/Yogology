@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useBookings } from '../hooks/useBookings';
 import { useBookingCutoff } from '../hooks/useBookingCutoff';
 import { ImageCarousel } from './ImageCarousel';
-import { PaymentMethodSelector } from './PaymentMethodSelector';
+import { ConfirmationModal } from './ConfirmationModal';
 import { sendBookingConfirmationEmail } from '../utils/emailHelpers';
 import { getDisplayLevel } from '@/constants/levels';
 
@@ -42,9 +42,8 @@ export function ClassDetailsModal({ classData, onClose, onNavigate, onBookingSuc
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [showPaymentSelector, setShowPaymentSelector] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [userPackage, setUserPackage] = useState<any>(null);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
   const [existingBooking, setExistingBooking] = useState<any>(null);
   const [checkingBooking, setCheckingBooking] = useState(true);
   const [loadingPackageData, setLoadingPackageData] = useState(true);
@@ -102,21 +101,22 @@ export function ClassDetailsModal({ classData, onClose, onNavigate, onBookingSuc
     if (existingBooking) {
       return;
     }
-    // Ensure data is loaded before showing payment selector
+    // Ensure data is loaded before showing confirmation
     if (loadingPackageData) {
       console.log('⏳ Still loading package data, please wait...');
       return;
     }
-    setShowPaymentSelector(true);
+    setShowConfirmation(true);
   };
 
-  const handlePaymentSelect = async (method: 'package' | 'cash' | 'bank_transfer' | 'promptpay', paymentNote?: string, slipUrl?: string) => {
+  const handleConfirmBooking = async () => {
     if (!user) return;
 
     try {
       setBookingLoading(true);
       setBookingError(null);
-      setSelectedPaymentMethod(method);
+
+      const hasPackage = userPackage && (userPackage.is_unlimited || userPackage.credits_remaining > 0);
 
       const bookingData: any = {
         user_id: user.id,
@@ -124,28 +124,18 @@ export function ClassDetailsModal({ classData, onClose, onNavigate, onBookingSuc
         amount_due: classData.price,
       };
 
-      if (method === 'package') {
+      if (hasPackage) {
         // Package booking - payment_status is 'paid' immediately
         bookingData.kind = 'package';
         bookingData.payment_status = 'paid';
         bookingData.payment_method = 'package';
         bookingData.user_package_id = userPackage?.id;
       } else {
-        // Transfer/Cash/PromptPay
+        // Drop-in booking — pay at studio
         bookingData.kind = 'dropin';
-        bookingData.payment_method = method;
-        bookingData.payment_note = paymentNote;
-        bookingData.payment_slip_url = slipUrl;
+        bookingData.payment_method = 'cash';
+        bookingData.payment_status = 'unpaid';
         bookingData.amount_paid = 0;
-        
-        // Set payment_status based on whether slip was uploaded
-        if (slipUrl) {
-          bookingData.payment_status = 'partial'; // Has slip - awaiting verification
-        } else if (method === 'cash') {
-          bookingData.payment_status = 'unpaid'; // Cash - no slip needed
-        } else {
-          bookingData.payment_status = 'pending_verification'; // Bank transfer - waiting for slip
-        }
       }
 
       const result = await createBooking(bookingData);
@@ -155,7 +145,7 @@ export function ClassDetailsModal({ classData, onClose, onNavigate, onBookingSuc
       }
 
       setBookingSuccess(true);
-      setShowPaymentSelector(false);
+      setShowConfirmation(false);
       // Update existing booking state to prevent re-booking
       setExistingBooking(result.data);
       
@@ -164,7 +154,7 @@ export function ClassDetailsModal({ classData, onClose, onNavigate, onBookingSuc
 
       // Send booking confirmation email
       if (user && result.data) {
-        const packageInfo = method === 'package' && userPackage ? {
+        const packageInfo = hasPackage ? {
           name: userPackage.name,
           creditsRemaining: userPackage.credits_remaining,
           isUnlimited: userPackage.is_unlimited
@@ -473,24 +463,17 @@ export function ClassDetailsModal({ classData, onClose, onNavigate, onBookingSuc
               </div>
             )}
 
-            {/* Payment Method Selector */}
-            {showPaymentSelector && !bookingSuccess && !loadingPackageData && (
-              <div className="mb-6">
-                <PaymentMethodSelector
-                  hasActivePackage={!!userPackage}
-                  packageName={userPackage?.name}
-                  creditsRemaining={userPackage?.credits_remaining}
-                  isUnlimited={userPackage?.is_unlimited || false}
-                  classPrice={classData.price}
-                  isWorkshop={false}
-                  itemName={classData.title}
-                  onSelect={handlePaymentSelect}
-                  selectedMethod={selectedPaymentMethod}
-                  userId={user?.id}
-                  userFullName={user?.user_metadata?.full_name}
-                />
-              </div>
-            )}
+            {/* Booking Confirmation Modal */}
+            <ConfirmationModal
+              isOpen={showConfirmation}
+              onClose={() => setShowConfirmation(false)}
+              onConfirm={handleConfirmBooking}
+              title="Confirm Your Booking"
+              message={`Book your spot for ${classData.title} on ${classData.day} at ${classData.time}? ${userPackage && (userPackage.is_unlimited || userPackage.credits_remaining > 0) ? `A credit from your ${userPackage.name} package will be used.` : classData.price > 0 ? `Payment of ฿${classData.price.toLocaleString()} is due at the studio.` : ''}`}
+              confirmText={bookingLoading ? 'Booking...' : 'Confirm Booking'}
+              cancelText="Cancel"
+              variant="default"
+            />
 
             {/* Manual Guest Booking Form (Admin Only) */}
             {showManualBooking && !bookingSuccess && (
@@ -663,7 +646,7 @@ export function ClassDetailsModal({ classData, onClose, onNavigate, onBookingSuc
             {/* Action Buttons */}
             <div className="flex flex-col gap-3">
               {user ? (
-                !showPaymentSelector && !showManualBooking ? (
+                !showManualBooking ? (
                   <>
                     {/* Show booking button only if cutoff hasn't passed */}
                     {!isCutoffPassed && (
@@ -718,7 +701,6 @@ export function ClassDetailsModal({ classData, onClose, onNavigate, onBookingSuc
                 ) : (
                   <button
                     onClick={() => {
-                      setShowPaymentSelector(false);
                       setShowManualBooking(false);
                     }}
                     className="w-full py-4 border-2 border-[var(--color-sand)] hover:border-[var(--color-sage)] text-[var(--color-earth-dark)] rounded-lg font-medium transition-all duration-300"

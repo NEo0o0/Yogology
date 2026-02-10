@@ -77,7 +77,7 @@ export default function RegisterPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+ const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validation
@@ -109,13 +109,20 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      // Sign up the user
+      // ✅ แก้ไขตรงนี้: ส่งข้อมูลทั้งหมดไปพร้อมกับการสมัครเลย
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
           data: {
+            // ส่งไปให้ครบ เพื่อให้ Trigger ทำงาน
             full_name: `${formData.firstName} ${formData.lastName}`,
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            phone: formData.phone,
+            nationality: formData.nationality,
+            contact_method: formData.contactPlatform, // ส่งประเภท (Line/IG)
+            contact_id: formData.contactValue       // ส่ง ID ที่กรอก
           },
         },
       });
@@ -126,24 +133,8 @@ export default function RegisterPage() {
         throw new Error('User creation failed');
       }
 
-      // Generate contact URL based on selected platform
-      const contactInfo = generateContactUrl(formData.contactPlatform, formData.contactValue);
-
-      // Update user profile with additional information
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({
-          full_name: `${formData.firstName} ${formData.lastName}`,
-          phone: formData.phone,
-          nationality: formData.nationality,
-          contact_info: contactInfo,
-        })
-        .eq('id', authData.user.id);
-
-      if (profileError) {
-        console.error('Profile update error:', profileError);
-        toast.warning('Account created but profile update failed. Please update your profile in settings.');
-      }
+      // ❌ ลบส่วน update profiles ทิ้งได้เลย เพราะ Trigger ใน SQL จัดการให้แล้ว
+      // การ update ซ้ำซ้อนอาจทำให้เกิด error เรื่อง permission ได้
 
       toast.success('Registration successful! Please check your email to verify your account.');
       

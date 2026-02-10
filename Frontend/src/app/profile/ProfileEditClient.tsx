@@ -13,6 +13,8 @@ interface ProfileEditClientProps {
     avatar_url: string | null;
     health_condition: string | null;
     phone: string | null;
+    nationality: string | null;   // ✅ เพิ่มตรงนี้
+    contact_info: string | null;  // ✅ เพิ่มตรงนี้
   };
   isAdmin?: boolean;
 }
@@ -21,6 +23,8 @@ export function ProfileEditClient({ userId, initialProfile, isAdmin = false }: P
   const router = useRouter();
   const [fullName, setFullName] = useState(initialProfile.full_name || '');
   const [phone, setPhone] = useState(initialProfile.phone || '');
+  const [nationality, setNationality] = useState(initialProfile.nationality || ''); // ✅ State ใหม่
+  const [contactInfo, setContactInfo] = useState(initialProfile.contact_info || ''); // ✅ State ใหม่
   const [healthCondition, setHealthCondition] = useState(initialProfile.health_condition || '');
   const [avatarUrl, setAvatarUrl] = useState(initialProfile.avatar_url || '');
   const [uploading, setUploading] = useState(false);
@@ -79,11 +83,14 @@ export function ProfileEditClient({ userId, initialProfile, isAdmin = false }: P
     try {
       setSaving(true);
 
+      // ✅ เพิ่ม nationality และ contact_info ลงใน payload
       const { error } = await supabase
         .from('profiles')
         .update({
           full_name: fullName || null,
           phone: phone || null,
+          nationality: nationality || null,    // ✅ ส่งค่า update
+          contact_info: contactInfo || null,   // ✅ ส่งค่า update
           health_condition: healthCondition || null,
           avatar_url: avatarUrl || null,
         })
@@ -184,6 +191,34 @@ export function ProfileEditClient({ userId, initialProfile, isAdmin = false }: P
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="Enter your phone number"
+          className="w-full px-4 py-2 border-2 border-[var(--color-sand)] rounded-lg focus:border-[var(--color-sage)] focus:ring-2 focus:ring-[var(--color-sage)]/20 outline-none transition-colors"
+        />
+      </div>
+
+      {/* ✅ Nationality Input */}
+      <div>
+        <label className="block text-sm font-semibold text-[var(--color-earth-dark)] mb-2">
+          Nationality
+        </label>
+        <input
+          type="text"
+          value={nationality}
+          onChange={(e) => setNationality(e.target.value)}
+          placeholder="e.g., Thai, American, British"
+          className="w-full px-4 py-2 border-2 border-[var(--color-sand)] rounded-lg focus:border-[var(--color-sage)] focus:ring-2 focus:ring-[var(--color-sage)]/20 outline-none transition-colors"
+        />
+      </div>
+
+      {/* ✅ Contact Info Input */}
+      <div>
+        <label className="block text-sm font-semibold text-[var(--color-earth-dark)] mb-2">
+          Contact Info (Line / Instagram / WhatsApp)
+        </label>
+        <input
+          type="text"
+          value={contactInfo}
+          onChange={(e) => setContactInfo(e.target.value)}
+          placeholder="e.g., Line: johndoe"
           className="w-full px-4 py-2 border-2 border-[var(--color-sand)] rounded-lg focus:border-[var(--color-sage)] focus:ring-2 focus:ring-[var(--color-sage)]/20 outline-none transition-colors"
         />
       </div>

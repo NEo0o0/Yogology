@@ -148,8 +148,11 @@ export default async function ProfilePage() {
                   initialProfile={{
                     full_name: profile?.full_name || null,
                     avatar_url: profile?.avatar_url || null,
-                    health_condition: (profile as any)?.health_condition || null,
                     phone: profile?.phone || null,
+                    // เพิ่มบรรทัดด้านล่างนี้ครับ
+                    nationality: (profile as any)?.nationality || null,
+                    contact_info: (profile as any)?.contact_info || null,
+                    health_condition: (profile as any)?.health_condition || null,
                   }}
                   isAdmin={role === 'admin'}
                 />

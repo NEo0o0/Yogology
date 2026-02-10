@@ -141,11 +141,10 @@ export function useBookings(options: UseBookingsOptions = {}) {
           return updateBooking(existingBooking.id, {
             status: 'booked',
             cancelled_at: null,
-            payment_method: bookingData.payment_method,
+            payment_method: bookingData.payment_method || 'cash',
             payment_status: bookingData.payment_status || 'unpaid',
-            payment_note: bookingData.payment_note,
             amount_due: bookingData.amount_due || 0,
-            amount_paid: bookingData.payment_status === 'paid' ? (bookingData.amount_due || 0) : 0
+            amount_paid: 0
           });
         }
       }
@@ -178,19 +177,16 @@ export function useBookings(options: UseBookingsOptions = {}) {
         data = res.data;
         error = res.error;
       } else {
-        // Drop-in booking with payment info
+        // Drop-in booking — pay at studio
         const dropinBooking: any = {
           user_id: bookingData.user_id,
           class_id: bookingData.class_id,
           kind: 'dropin',
           status: 'booked',
           amount_due: bookingData.amount_due || 0,
-          amount_paid: bookingData.payment_status === 'paid' ? (bookingData.amount_due || 0) : 0,
-          payment_method: bookingData.payment_method,
-          payment_status: bookingData.payment_status || 'unpaid',
-          payment_note: bookingData.payment_note,
-          payment_slip_url: bookingData.payment_slip_url,
-          paid_at: bookingData.payment_status === 'paid' ? new Date().toISOString() : null
+          amount_paid: 0,
+          payment_method: bookingData.payment_method || 'cash',
+          payment_status: 'unpaid',
         };
         const res = await supabase.from('bookings').insert(dropinBooking).select().single();
         data = res.data;
