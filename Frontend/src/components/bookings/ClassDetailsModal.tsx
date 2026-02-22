@@ -252,7 +252,7 @@ export function ClassDetailsModal({ classData, onClose, onNavigate, onBookingSuc
     }
   };
 
-  const isAdmin = profile?.role === 'admin';
+  const { isStaff } = useAuth();
 
   const spotsLeft = classData.capacity - localEnrolled;
   const isFull = spotsLeft <= 0;
@@ -705,7 +705,7 @@ export function ClassDetailsModal({ classData, onClose, onNavigate, onBookingSuc
                       <span>📱</span>
                       <span>Manual Book via WhatsApp</span>
                     </a>
-                    {isAdmin && (
+                    {isStaff && (
                       <button
                         onClick={() => setShowManualBooking(true)}
                         className="w-full py-3 border-2 border-[var(--color-sage)] text-[var(--color-sage)] hover:bg-[var(--color-sage)] hover:text-white rounded-lg transition-all duration-300 flex items-center justify-center gap-2"

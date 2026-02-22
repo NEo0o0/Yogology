@@ -54,12 +54,11 @@ export function SchedulePricing({
 }) {
   const [selectedTraining, setSelectedTraining] = useState<Training | null>(null);
   const [editingGallery, setEditingGallery] = useState<Training | null>(null);
-  const { profile } = useAuth();
+  const { profile, isStaff } = useAuth();
   // Use allTrainings if provided, otherwise fallback to single upcomingTraining
   const trainings = allTrainings && allTrainings.length > 0 ? allTrainings : (upcomingTraining ? [upcomingTraining] : []);
 
   const now = useMemo(() => new Date(), []);
-  const isAdmin = profile?.role === 'admin';
 
   const standardTraining = trainings[0] ?? null;
 
@@ -138,7 +137,7 @@ export function SchedulePricing({
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         {/* Admin Edit Gallery Button */}
-                        {isAdmin && (
+                        {isStaff && (
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
@@ -165,7 +164,7 @@ export function SchedulePricing({
                     ) : (
                       <div className="relative w-full h-48 bg-gradient-to-br from-[var(--color-sage)] to-[var(--color-clay)]">
                         {/* Admin Edit Gallery Button */}
-                        {isAdmin && (
+                        {isStaff && (
                           <button
                             onClick={(e) => {
                               e.stopPropagation();

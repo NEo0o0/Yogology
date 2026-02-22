@@ -77,7 +77,7 @@ const formatEvent = (workshop: Workshop) => {
 export function WorkshopsEvents({ initialWorkshops }: { initialWorkshops?: Workshop[] }) {
   const router = useRouter();
   const { workshops, loading, error, refetch } = useWorkshops({ initialWorkshops });
-  const { profile } = useAuth();
+  const { profile, isStaff } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
   const [selectedEvent, setSelectedEvent] = useState<ReturnType<typeof formatEvent> | null>(null);
@@ -85,8 +85,6 @@ export function WorkshopsEvents({ initialWorkshops }: { initialWorkshops?: Works
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
   const [editingGallery, setEditingGallery] = useState<Workshop | null>(null);
-
-  const isAdmin = profile?.role === 'admin';
 
   // Split workshops into upcoming and past based on starts_at
   const { upcomingEvents, pastEvents } = useMemo(() => {
@@ -207,7 +205,7 @@ export function WorkshopsEvents({ initialWorkshops }: { initialWorkshops?: Works
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                   />
                   {/* Admin Edit Gallery Button */}
-                  {isAdmin && (
+                  {isStaff && (
                     <button
                       onClick={(e) => {
                         e.stopPropagation();

@@ -24,7 +24,7 @@ interface TrainingDetailModalProps {
 
 export function TrainingDetailModal({ training, onClose }: TrainingDetailModalProps) {
   const router = useRouter();
-  const { user, profile } = useAuth();
+  const { user, profile, isStaff } = useAuth();
   const { createBooking } = useBookings({ autoFetch: false });
   const { isCutoffPassed, cutoffMinutes, loading: cutoffLoading } = useBookingCutoff(training.starts_at);
   
@@ -52,7 +52,6 @@ export function TrainingDetailModal({ training, onClose }: TrainingDetailModalPr
 
   const now = Date.now();
   const spotsRemaining = training.capacity - training.booked_count;
-  const isAdmin = profile?.role === 'admin';
 
   // Check if user already has a booking for this training
   useEffect(() => {
@@ -541,7 +540,7 @@ export function TrainingDetailModal({ training, onClose }: TrainingDetailModalPr
                               )}
                               
                               {/* Admin Manual Register Button */}
-                              {isAdmin && (
+                              {isStaff && (
                                 <button
                                   onClick={() => setShowManualBooking(true)}
                                   className="w-full py-2 text-sm text-[var(--color-sage)] hover:underline flex items-center justify-center gap-1"

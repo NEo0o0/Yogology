@@ -22,7 +22,7 @@ interface UserData {
   id: string;
   name: string;
   email: string;
-  role: 'member' | 'admin';
+  role: 'member' | 'admin' | 'staff' | 'instructor';
   phone?: string;
   lineId?: string;
   packageType?: string;
@@ -310,8 +310,8 @@ export function MemberDashboard({ userData, onLogout, onNavigateToAdmin, onNavig
               </h1>
             </div>
             <div className="flex items-center gap-3">
-              {/* Admin Access Button - Only show if user is admin */}
-              {userData.role === 'admin' && (
+              {/* Admin Access Button - Show for admin and staff */}
+              {(userData.role === 'admin' || userData.role === 'staff') && (
                 <button
                   onClick={onNavigateToAdmin}
                   className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg"

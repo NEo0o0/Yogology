@@ -31,7 +31,7 @@ interface EventDetailModalProps {
 }
 
 export function EventDetailModal({ event, onClose, onNavigate }: EventDetailModalProps) {
-  const { user, profile } = useAuth();
+  const { user, profile, isStaff } = useAuth();
   const { createBooking } = useBookings({ autoFetch: false });
   const { isCutoffPassed, cutoffMinutes, loading: cutoffLoading } = useBookingCutoff(event.starts_at);
   const [showPaymentSelector, setShowPaymentSelector] = useState(false);
@@ -45,8 +45,6 @@ export function EventDetailModal({ event, onClose, onNavigate }: EventDetailModa
   const [guestAvatarUrl, setGuestAvatarUrl] = useState('');
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [paymentReceived, setPaymentReceived] = useState(false);
-
-  const isAdmin = profile?.role === 'admin';
   const isPastEvent = new Date(event.starts_at) < new Date();
   const hasGallery = event.gallery_images && event.gallery_images.length > 0;
   const workshopPrice = parseFloat(event.price.replace(/[^0-9.]/g, '')) || 0;
@@ -580,7 +578,7 @@ export function EventDetailModal({ event, onClose, onNavigate }: EventDetailModa
                   </>
                 ) : null}
 
-                {isAdmin && !showPaymentSelector && !showManualBooking && !bookingSuccess && (
+                {isStaff && !showPaymentSelector && !showManualBooking && !bookingSuccess && (
                   <button
                     onClick={() => setShowManualBooking(true)}
                     className="w-full border-2 border-[var(--color-sage)] text-[var(--color-sage)] hover:bg-[var(--color-sage)] hover:text-white py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"

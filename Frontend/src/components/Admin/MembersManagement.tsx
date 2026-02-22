@@ -301,8 +301,8 @@ export function MembersManagement() {
   }, [members]);
 
   const canManageRoles = currentUserRole === 'admin';
-  const canAssignPackages = currentUserRole === 'admin' || currentUserRole === 'instructor';
-  const canViewDetails = currentUserRole === 'admin' || currentUserRole === 'instructor';
+  const canAssignPackages = currentUserRole === 'admin' || currentUserRole === 'staff' || currentUserRole === 'instructor';
+  const canViewDetails = currentUserRole === 'admin' || currentUserRole === 'staff' || currentUserRole === 'instructor';
 
   if (loading) {
     return (
