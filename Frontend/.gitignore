@@ -33,3 +33,7 @@ build
 .env.*
 !.env.example
 .vercel
+
+
+# Supabase
+supabase/.temp/

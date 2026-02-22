@@ -33,7 +33,7 @@ export function Navbar({
 }: NavbarProps) {
   const router = useRouter();
   const { user, profile, loading: authLoading } = useAuth();
-  const role = (profile?.role ?? 'member') as 'admin' | 'instructor' | 'member';
+  const role = (profile?.role ?? 'member') as 'admin' | 'instructor' | 'member' | 'staff';
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [workshopsDropdownOpen, setWorkshopsDropdownOpen] =
@@ -225,15 +225,19 @@ export function Navbar({
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => {
-                    router.push('/profile');
+                    router.push(role === 'admin' || role === 'staff' ? '/admin' : '/profile');
                   }}
                   className="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-gradient-to-r from-[var(--color-sage)] to-[var(--color-clay)] text-white hover:opacity-90 transition-all duration-300 shadow-md hover:shadow-lg font-medium"
                 >
                   <User size={18} strokeWidth={2} />
-                  <span>{authLoading ? 'Loading…' : role === 'admin' ? 'Dashboard' : 'Profile'}</span>
+                  <span>{authLoading ? 'Loading…' : (role === 'admin' || role === 'staff') ? 'Dashboard' : 'Profile'}</span>
                   {role === 'admin' ? (
                     <span className="ml-1 px-2 py-0.5 rounded-full text-[10px] bg-white/20 border border-white/30">
                       Admin
+                    </span>
+                  ) : role === 'staff' ? (
+                    <span className="ml-1 px-2 py-0.5 rounded-full text-[10px] bg-white/20 border border-white/30">
+                      Staff
                     </span>
                   ) : null}
                 </button>
@@ -342,15 +346,19 @@ export function Navbar({
               {user ? (
                 <button
                   onClick={() => {
-                    router.push('/profile');
+                    router.push(role === 'admin' || role === 'staff' ? '/admin' : '/profile');
                   }}
                   className="w-full flex items-center justify-center gap-3 px-4 py-4 rounded-xl bg-gradient-to-r from-[var(--color-sage)] to-[var(--color-clay)] text-white hover:opacity-90 transition-all duration-300 shadow-lg font-medium mt-4"
                 >
                   <User size={20} strokeWidth={2} />
-                  <span>{authLoading ? 'Loading…' : role === 'admin' ? 'Dashboard' : 'Profile'}</span>
+                  <span>{authLoading ? 'Loading…' : (role === 'admin' || role === 'staff') ? 'Dashboard' : 'Profile'}</span>
                   {role === 'admin' ? (
                     <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/20 border border-white/30">
                       Admin
+                    </span>
+                  ) : role === 'staff' ? (
+                    <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/20 border border-white/30">
+                      Staff
                     </span>
                   ) : null}
                 </button>

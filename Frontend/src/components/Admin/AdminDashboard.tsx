@@ -23,6 +23,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
+import { useAuth } from '@/hooks/useAuth';
 import { CreateClassModal } from '@/components/bookings/CreateClassModal';
 import { ClassManagement } from './ClassManagement';
 import { MembersManagement } from './MembersManagement';
@@ -76,12 +77,11 @@ interface AdminDashboardProps {
 
 export function AdminDashboard({ onNavigateHome, onLogout }: AdminDashboardProps = {}) {
   const { setIsLoggedIn } = useApp();
+  const { userRole, isAdmin } = useAuth();
   const { stats, loading: statsLoading, error: statsError, refetch: refetchStats } = useDashboardStats();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [currentSection, setCurrentSection] = useState('dashboard');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [currentUserRole, setCurrentUserRole] = useState<string>('member');
-
   const [now, setNow] = useState<Date | null>(null);
 
   const [showManualBookingModal, setShowManualBookingModal] = useState(false);
@@ -113,29 +113,13 @@ export function AdminDashboard({ onNavigateHome, onLogout }: AdminDashboardProps
     setIsLoggedIn(true);
   }, [setIsLoggedIn]);
 
-  // Fetch current user's role for RBAC
+  // Safety check: Redirect staff users away from restricted sections
   useEffect(() => {
-    const fetchUserRole = async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', user.id)
-          .single();
-
-        if (profile) {
-          setCurrentUserRole(profile.role);
-        }
-      } catch (error) {
-        console.error('Error fetching user role:', error);
-      }
-    };
-
-    fetchUserRole();
-  }, []);
+    const restrictedSections = ['payments', 'reports', 'settings'];
+    if (!isAdmin && restrictedSections.includes(currentSection)) {
+      setCurrentSection('dashboard');
+    }
+  }, [isAdmin, currentSection]);
 
   // Initialize time on client-side only to prevent hydration mismatch
   useEffect(() => {
@@ -719,19 +703,21 @@ export function AdminDashboard({ onNavigateHome, onLogout }: AdminDashboardProps
               <span>Members</span>
             </button>
           </li>
-          <li>
-            <button
-              onClick={() => handleSectionChange('payments')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
-                currentSection === 'payments'
-                  ? 'bg-[var(--color-sage)] text-white'
-                  : 'text-[var(--color-stone)] hover:bg-[var(--color-cream)]'
-              }`}
-            >
-              <DollarSign size={20} />
-              <span>Payments</span>
-            </button>
-          </li>
+          {isAdmin && (
+            <li>
+              <button
+                onClick={() => handleSectionChange('payments')}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
+                  currentSection === 'payments'
+                    ? 'bg-[var(--color-sage)] text-white'
+                    : 'text-[var(--color-stone)] hover:bg-[var(--color-cream)]'
+                }`}
+              >
+                <DollarSign size={20} />
+                <span>Payments</span>
+              </button>
+            </li>
+          )}
           <li>
             <button
               onClick={() => handleSectionChange('verify-slips')}
@@ -745,19 +731,21 @@ export function AdminDashboard({ onNavigateHome, onLogout }: AdminDashboardProps
               <span>Verify Payment Slips</span>
             </button>
           </li>
-          <li>
-            <button
-              onClick={() => handleSectionChange('reports')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
-                currentSection === 'reports'
-                  ? 'bg-[var(--color-sage)] text-white'
-                  : 'text-[var(--color-stone)] hover:bg-[var(--color-cream)]'
-              }`}
-            >
-              <FileText size={20} />
-              <span>Reports</span>
-            </button>
-          </li>
+          {isAdmin && (
+            <li>
+              <button
+                onClick={() => handleSectionChange('reports')}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
+                  currentSection === 'reports'
+                    ? 'bg-[var(--color-sage)] text-white'
+                    : 'text-[var(--color-stone)] hover:bg-[var(--color-cream)]'
+                }`}
+              >
+                <FileText size={20} />
+                <span>Reports</span>
+              </button>
+            </li>
+          )}
         </ul>
 
         <div className="my-6 border-t border-[var(--color-sand)]" />
@@ -776,19 +764,21 @@ export function AdminDashboard({ onNavigateHome, onLogout }: AdminDashboardProps
               <span>Subscribers</span>
             </button>
           </li>
-          <li>
-            <button
-              onClick={() => handleSectionChange('settings')}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
-                currentSection === 'settings'
-                  ? 'bg-[var(--color-sage)] text-white'
-                  : 'text-[var(--color-stone)] hover:bg-[var(--color-cream)]'
-              }`}
-            >
-              <Settings size={20} />
-              <span>Settings</span>
-            </button>
-          </li>
+          {isAdmin && (
+            <li>
+              <button
+                onClick={() => handleSectionChange('settings')}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
+                  currentSection === 'settings'
+                    ? 'bg-[var(--color-sage)] text-white'
+                    : 'text-[var(--color-stone)] hover:bg-[var(--color-cream)]'
+                }`}
+              >
+                <Settings size={20} />
+                <span>Settings</span>
+              </button>
+            </li>
+          )}
         </ul>
       </nav>
 
@@ -799,8 +789,10 @@ export function AdminDashboard({ onNavigateHome, onLogout }: AdminDashboardProps
               <User size={20} />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-sm text-[var(--color-earth-dark)] truncate">Admin User</div>
-              <div className="text-xs text-[var(--color-stone)]">admin@anniebliss.com</div>
+              <div className="text-sm text-[var(--color-earth-dark)] truncate">
+                {userRole === 'admin' ? 'Admin' : userRole === 'staff' ? 'Staff' : 'User'}
+              </div>
+              <div className="text-xs text-[var(--color-stone)]">{userRole} access</div>
             </div>
           </div>
         </div>
@@ -926,8 +918,8 @@ export function AdminDashboard({ onNavigateHome, onLogout }: AdminDashboardProps
                     <div className="text-xs text-[var(--color-stone)] mt-2">Current month</div>
                   </div>
 
-                  {/* Revenue Card - Hidden for Instructors */}
-                  {currentUserRole === 'admin' && (
+                  {/* Revenue Card - Hidden for Staff */}
+                  {isAdmin && (
                     <div className="bg-white rounded-lg p-4 md:p-6 shadow-md hover:shadow-xl transition-shadow duration-300">
                       <div className="flex items-center justify-between mb-4">
                         <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-green-100 flex items-center justify-center">
@@ -1089,7 +1081,7 @@ export function AdminDashboard({ onNavigateHome, onLogout }: AdminDashboardProps
 
         {currentSection === 'classes' && <ClassManagement />}
         {currentSection === 'members' && <MembersManagement />}
-        {currentSection === 'payments' && <PaymentsManagement />}
+        {isAdmin && currentSection === 'payments' && <PaymentsManagement />}
         {currentSection === 'verify-slips' && (
           <div className="p-4 md:p-8">
             <div className="mb-8">
@@ -1103,9 +1095,9 @@ export function AdminDashboard({ onNavigateHome, onLogout }: AdminDashboardProps
             <VerifySlipsSection />
           </div>
         )}
-        {currentSection === 'reports' && <ReportsAnalytics />}
+        {isAdmin && currentSection === 'reports' && <ReportsAnalytics />}
         {currentSection === 'subscribers' && <NewsletterSubscribers />}
-        {currentSection === 'settings' && (
+        {isAdmin && currentSection === 'settings' && (
           <div className="p-4 md:p-8">
             <SiteSettings />
           </div>

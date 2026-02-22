@@ -298,6 +298,9 @@ export function useAuth() {
     }
   };
 
+  // Get user role for easy access
+  const userRole = authState.profile?.role || 'member';
+
   return {
     ...authState,
     signUp,
@@ -306,8 +309,10 @@ export function useAuth() {
     updateProfile,
     checkIsAdmin,
     isAuthenticated: !!authState.user,
-    isAdmin: authState.profile?.role === 'admin',
-    isInstructor: authState.profile?.role === 'instructor',
-    isMember: authState.profile?.role === 'member',
+    userRole, // Export the role directly
+    isAdmin: userRole === 'admin',
+    isStaff: userRole === 'admin' || userRole === 'staff', // Staff includes admin
+    isInstructor: userRole === 'instructor',
+    isMember: userRole === 'member',
   };
 }
