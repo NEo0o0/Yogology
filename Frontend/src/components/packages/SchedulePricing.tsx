@@ -2,11 +2,11 @@
 
 import { Calendar, Clock, MapPin, Check, Camera } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { useTeacherTraining } from '../hooks/useTeacherTraining';
-import { TrainingDetailModal } from './TrainingDetailModal';
-import { GalleryManagementModal } from './GalleryManagementModal';
-import { useAuth } from '../hooks/useAuth';
-import type { Tables } from '../types/database.types';
+import { useTeacherTraining } from '@/hooks/useTeacherTraining';
+import { TrainingDetailModal } from '@/components/bookings/TrainingDetailModal';
+import { GalleryManagementModal } from '@/components/admin/GalleryManagementModal';
+import { useAuth } from '@/hooks/useAuth';
+import type { Tables } from '@/types/database.types';
 
 type Training = Tables<'classes'> & {
   early_bird_price: number | null;

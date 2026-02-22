@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase/client';
 import { toast } from 'sonner';
 import { Save, Loader2, Settings as SettingsIcon } from 'lucide-react';
-import { ImageUpload } from '../ImageUpload';
-import { PaymentMethodsConfig } from '../PaymentMethodsConfig';
+import { ImageUpload } from '@/components/ui/ImageUpload';
+import { PaymentMethodsConfig } from '@/components/admin/PaymentMethodsConfig';
 
 interface AppSetting {
   key: string;

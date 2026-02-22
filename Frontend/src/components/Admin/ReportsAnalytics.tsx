@@ -2,8 +2,8 @@
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { TrendingUp, Users, Calendar as CalendarIcon, ShieldAlert, Download, Loader2 } from 'lucide-react';
-import { MonthYearPicker } from './MonthYearPicker';
-import { useReportStats } from '../hooks/useReportStats';
+import { MonthYearPicker } from '@/components/ui/MonthYearPicker';
+import { useReportStats } from '@/hooks/useReportStats';
 import { supabase } from '@/utils/supabase/client';
 import {
   BarChart,

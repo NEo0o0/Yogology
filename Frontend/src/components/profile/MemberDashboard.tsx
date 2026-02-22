@@ -16,7 +16,7 @@ import {
   CalendarDays,
   Info
 } from 'lucide-react';
-import { BuyPackageModal } from './BuyPackageModal';
+import { BuyPackageModal } from '@/components/packages/BuyPackageModal';
 
 interface UserData {
   id: string;

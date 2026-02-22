@@ -1,7 +1,7 @@
-import { AboutHero } from '@/components/AboutHero';
-import { InstructorProfile } from '@/components/InstructorProfile';
-import { OurVision } from '@/components/OurVision';
-import { Certifications } from '@/components/Certifications';
+import { AboutHero } from '@/components/about/AboutHero';
+import { InstructorProfile } from '@/components/about/InstructorProfile';
+import { OurVision } from '@/components/about/OurVision';
+import { Certifications } from '@/components/about/Certifications';
 
 export default function AboutPage() {
   return (

@@ -3,7 +3,7 @@
 import { useCallback } from 'react';
 import { supabase } from '@/utils/supabase/client';
 import { AppProvider } from '@/context/AppContext';
-import { AdminDashboard } from '@/components/AdminDashboard';
+import { AdminDashboard } from '@/components/admin/AdminDashboard';
 
 export function LegacyAdminDashboardClient() {
   const onLogout = useCallback(async () => {

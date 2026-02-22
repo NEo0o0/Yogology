@@ -2,10 +2,10 @@
 
 import { useState, useMemo } from 'react';
 import { DollarSign, TrendingUp, TrendingDown, Wallet, Plus, X, Edit2, Trash2, Eye, CheckCircle, Clock, Download, Loader2 } from 'lucide-react';
-import { MonthYearPicker } from './MonthYearPicker';
-import { PaymentVerificationModal } from './PaymentVerificationModal';
+import { MonthYearPicker } from '@/components/ui/MonthYearPicker';
+import { PaymentVerificationModal } from '@/components/admin/PaymentVerificationModal';
 import { ManualTransactionModal } from './ManualTransactionModal';
-import { projectId, publicAnonKey } from '../utils/supabase/info';
+import { projectId, publicAnonKey } from '@/utils/supabase/info';
 import { toast } from 'sonner';
 
 interface Payment {

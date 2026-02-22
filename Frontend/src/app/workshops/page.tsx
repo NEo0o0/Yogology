@@ -1,4 +1,4 @@
-import { WorkshopsEvents } from '@/components/WorkshopsEvents';
+import { WorkshopsEvents } from '@/components/workshops/WorkshopsEvents';
 import { createSupabaseServerClient } from '@/utils/supabase/server';
 import type { Tables } from '@/types/database.types';
 

@@ -1,4 +1,4 @@
-import { Pricing } from '@/components/Pricing';
+import { Pricing } from '@/components/packages/Pricing';
 import { createSupabasePublicClient } from '@/utils/supabase/public';
 import type { Tables } from '@/types/database.types';
 

@@ -22,8 +22,8 @@ import {
   Loader2,
   CheckCircle2,
 } from 'lucide-react';
-import { useApp } from '../context/AppContext';
-import { CreateClassModal } from './CreateClassModal';
+import { useApp } from '@/context/AppContext';
+import { CreateClassModal } from '@/components/bookings/CreateClassModal';
 import { ClassManagement } from './ClassManagement';
 import { MembersManagement } from './MembersManagement';
 import { PaymentsManagement } from './PaymentsManagement';
@@ -31,12 +31,12 @@ import { ReportsAnalytics } from './ReportsAnalytics';
 import { TodaysClassesTable } from './TodaysClassesTable';
 import { NewsletterSubscribers } from './NewsletterSubscribers';
 import { AdminBookingModal } from './AdminBookingModal';
-import { ConfirmationModal } from './ConfirmationModal';
+import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
 import { VerifySlipsSection } from './VerifySlipsSection';
-import { SiteSettings } from './Admin/SiteSettings';
+import { SiteSettings } from './SiteSettings';
 import { ManualTransactionModal } from './ManualTransactionModal';
 import { toast } from 'sonner';
-import { useDashboardStats } from '../hooks/useDashboardStats';
+import { useDashboardStats } from '@/hooks/useDashboardStats';
 import { supabase } from '@/utils/supabase/client';
 
 type AdminBooking = {

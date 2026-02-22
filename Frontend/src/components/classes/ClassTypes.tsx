@@ -2,10 +2,10 @@
 
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { useState } from 'react';
-import { useClassTypes } from '../hooks';
-import { ClassTemplateDetailsModal } from './ClassTemplateDetailsModal';
-import { getDisplayLevel } from '../constants/levels';
-import type { Tables } from '../types/database.types';
+import { useClassTypes } from '@/hooks';
+import { ClassTemplateDetailsModal } from '@/components/bookings/ClassTemplateDetailsModal';
+import { getDisplayLevel } from '@/constants/levels';
+import type { Tables } from '@/types/database.types';
 
 type ClassType = Tables<'class_types'>;
 

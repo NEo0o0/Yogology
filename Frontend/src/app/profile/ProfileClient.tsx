@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Upload, CheckCircle, Clock, AlertCircle } from 'lucide-react';
-import { PaymentSlipUpload } from '@/components/PaymentSlipUpload';
+import { PaymentSlipUpload } from '@/components/packages/PaymentSlipUpload';
 import { supabase } from '@/utils/supabase/client';
 import { toast } from 'sonner';
 import { sendSlipUploadedEmail } from '@/utils/emailHelpers';

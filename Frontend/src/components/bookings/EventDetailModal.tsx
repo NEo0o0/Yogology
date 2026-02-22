@@ -2,11 +2,11 @@
 
 import { X, Calendar, MapPin, DollarSign, Users, Clock, UserPlus, Camera, Loader2, AlertCircle, Tag } from 'lucide-react';
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { useBookings } from '../hooks/useBookings';
-import { useBookingCutoff } from '../hooks/useBookingCutoff';
-import { ImageCarousel } from './ImageCarousel';
-import { PaymentMethodSelector } from './PaymentMethodSelector';
+import { useAuth } from '@/hooks/useAuth';
+import { useBookings } from '@/hooks/useBookings';
+import { useBookingCutoff } from '@/hooks/useBookingCutoff';
+import { ImageCarousel } from '@/components/ui/ImageCarousel';
+import { PaymentMethodSelector } from '@/components/packages/PaymentMethodSelector';
 import { formatToThaiTime, formatToThaiDateLong } from '@/utils/dateHelpers';
 
 interface EventDetailModalProps {
@@ -446,7 +446,7 @@ export function EventDetailModal({ event, onClose, onNavigate }: EventDetailModa
 
                         setUploadingAvatar(true);
                         try {
-                          const { supabase } = await import('../utils/supabase/client');
+                          const { supabase } = await import('@/utils/supabase/client');
                           const fileExt = file.name.split('.').pop();
                           const fileName = `guest-${Date.now()}.${fileExt}`;
 

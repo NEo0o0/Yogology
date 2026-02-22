@@ -2,7 +2,7 @@
 
 import { Calendar, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState, useMemo, useEffect } from 'react';
-import { useClasses } from '../hooks';
+import { useClasses } from '@/hooks';
 import { ClassDetailsModal } from './ClassDetailsModal';
 import { supabase } from '@/utils/supabase/client';
 import { getDisplayLevel } from '@/constants/levels';

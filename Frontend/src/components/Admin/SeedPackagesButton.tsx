@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { Database, Check, AlertCircle } from 'lucide-react';
-import { projectId, publicAnonKey } from '../utils/supabase/info';
-import { samplePackages } from '../utils/seedPackages';
+import { projectId, publicAnonKey } from '@/utils/supabase/info';
+import { samplePackages } from '@/utils/seedPackages';
 
 export function SeedPackagesButton() {
   const [isSeeding, setIsSeeding] = useState(false);

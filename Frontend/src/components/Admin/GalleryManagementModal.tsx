@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { X, Save, Loader2, Image as ImageIcon, Star } from 'lucide-react';
 import { supabase } from '@/utils/supabase/client';
-import { MultiImageUpload } from './MultiImageUpload';
+import { MultiImageUpload } from '@/components/ui/MultiImageUpload';
 import { toast } from 'sonner';
 
 interface GalleryManagementModalProps {

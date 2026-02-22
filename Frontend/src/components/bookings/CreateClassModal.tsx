@@ -4,8 +4,8 @@ import { X } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/utils/supabase/client';
 import { toast } from 'sonner';
-import { ImageUpload } from './ImageUpload';
-import { MultiImageUpload } from './MultiImageUpload';
+import { ImageUpload } from '@/components/ui/ImageUpload';
+import { MultiImageUpload } from '@/components/ui/MultiImageUpload';
 import type { Tables, TablesInsert } from '@/types/database.types';
 
 interface CreateClassModalProps {

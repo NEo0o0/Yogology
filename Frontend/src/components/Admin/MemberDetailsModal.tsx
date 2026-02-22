@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { X, Calendar, Package, GraduationCap, Loader2, Activity } from 'lucide-react';
 import { supabase } from '@/utils/supabase/client';
-import { Avatar } from './Avatar';
+import { Avatar } from '@/components/profile/UserProfileAvatar';
 import { toast } from 'sonner';
 
 interface MemberDetailsModalProps {

@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { User, Phone, Mail, Camera, Save, Loader2 } from 'lucide-react';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/utils/supabase/client';
-import { ImageUpload } from './ImageUpload';
-import { Avatar } from './Avatar';
+import { ImageUpload } from '@/components/ui/ImageUpload';
+import { Avatar } from '@/components/profile/UserProfileAvatar';
 import { toast } from 'sonner';
 
 export function UserSettings() {

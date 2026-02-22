@@ -1,6 +1,6 @@
 import { X, Clock, DollarSign, TrendingUp } from 'lucide-react';
 import { getDisplayLevel } from '@/constants/levels';
-import { ImageCarousel } from './ImageCarousel';
+import { ImageCarousel } from '@/components/ui/ImageCarousel';
 
 interface ClassTemplateDetailsModalProps {
   templateData: {

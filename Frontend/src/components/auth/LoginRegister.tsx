@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { Mail, Lock, User, Phone, Eye, EyeOff, MessageCircle, Instagram, Facebook, Home } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../hooks';
-import { supabase } from '../utils/supabase/client';
-import type { Tables } from '../types/database.types';
+import { useAuth } from '@/hooks';
+import { supabase } from '@/utils/supabase/client';
+import type { Tables } from '@/types/database.types';
 
 type Profile = Tables<'profiles'>;
 

@@ -1,8 +1,8 @@
 'use client';
 
-import { TeacherTrainingHero } from '@/components/TeacherTrainingHero';
-import { Curriculum } from '@/components/Curriculum';
-import { SchedulePricing } from '@/components/SchedulePricing';
+import { TeacherTrainingHero } from '@/components/about/TeacherTrainingHero';
+import { Curriculum } from '@/components/about/Curriculum';
+import { SchedulePricing } from '@/components/packages/SchedulePricing';
 import type { Tables } from '@/types/database.types';
 
 type Training = Tables<'classes'> & {

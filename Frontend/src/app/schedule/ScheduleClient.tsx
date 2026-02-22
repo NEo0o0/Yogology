@@ -2,11 +2,11 @@
 
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ClassesHero } from '@/components/ClassesHero';
-import { WeeklySchedule } from '@/components/WeeklySchedule';
-import { ClassRules } from '@/components/ClassRules';
-import { CancellationPolicy } from '@/components/CancellationPolicy';
-import { ClassTypes } from '@/components/ClassTypes';
+import { ClassesHero } from '@/components/classes/ClassesHero';
+import { WeeklySchedule } from '@/components/bookings/WeeklySchedule';
+import { ClassRules } from '@/components/classes/ClassRules';
+import { CancellationPolicy } from '@/components/classes/CancellationPolicy';
+import { ClassTypes } from '@/components/classes/ClassTypes';
 import type { Tables } from '@/types/database.types';
 
 type DbClass = Tables<'classes'>;

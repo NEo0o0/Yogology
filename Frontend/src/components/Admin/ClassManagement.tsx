@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { Plus, Edit2, Trash2, Calendar, Sparkles } from 'lucide-react';
-import { useApp } from '../context/AppContext';
-import { ClassTypesTab } from './ClassTypesTab';
-import { ScheduleGeneratorTab } from './ScheduleGeneratorTab';
+import { useApp } from '@/context/AppContext';
+import { ClassTypesTab } from '@/components/classes/ClassTypesTab';
+import { ScheduleGeneratorTab } from '@/components/bookings/ScheduleGeneratorTab';
 
 export function ClassManagement() {
   const [activeTab, setActiveTab] = useState<'types' | 'generator'>('types');

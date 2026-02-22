@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import React from 'react';
-import { ConfirmationModal } from './ConfirmationModal';
+import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
 
 import { 
   Clock, 

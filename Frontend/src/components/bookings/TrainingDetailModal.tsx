@@ -3,13 +3,13 @@
 import { X, Calendar, Clock, MapPin, DollarSign, BookOpen, Check, Users, Bell, UserPlus, Camera, Loader2, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState, useEffect } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { useBookings } from '../hooks/useBookings';
-import { useBookingCutoff } from '../hooks/useBookingCutoff';
-import { PaymentMethodSelector } from './PaymentMethodSelector';
+import { useAuth } from '@/hooks/useAuth';
+import { useBookings } from '@/hooks/useBookings';
+import { useBookingCutoff } from '@/hooks/useBookingCutoff';
+import { PaymentMethodSelector } from '@/components/packages/PaymentMethodSelector';
 import { formatToThaiTime, formatToThaiDateLong, formatToThaiTimeRange } from '@/utils/dateHelpers';
 import { supabase } from '@/utils/supabase/client';
-import type { Tables } from '../types/database.types';
+import type { Tables } from '@/types/database.types';
 
 type Training = Tables<'classes'> & {
   early_bird_price: number | null;

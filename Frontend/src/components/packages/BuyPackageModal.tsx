@@ -11,7 +11,7 @@ import {
   Instagram
 } from 'lucide-react';
 import { usePaymentConfig } from '@/hooks';
-import { StatusPopup } from './ui/StatusPopup';
+import { StatusPopup } from '@/components/ui/StatusPopup';
 
 interface PackageItem {
   id: string;

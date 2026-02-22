@@ -3,10 +3,10 @@
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { Calendar, DollarSign } from 'lucide-react';
-import { useTeacherTraining } from '../hooks/useTeacherTraining';
-import { useAuth } from '../hooks/useAuth';
-import { TrainingDetailModal } from './TrainingDetailModal';
-import type { Tables } from '../types/database.types';
+import { useTeacherTraining } from '@/hooks/useTeacherTraining';
+import { useAuth } from '@/hooks/useAuth';
+import { TrainingDetailModal } from '@/components/bookings/TrainingDetailModal';
+import type { Tables } from '@/types/database.types';
 
 type Training = Tables<'classes'> & {
   early_bird_price: number | null;

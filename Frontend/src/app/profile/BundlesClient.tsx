@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShoppingCart, CheckCircle } from 'lucide-react';
-import { PaymentMethodSelector } from '@/components/PaymentMethodSelector';
+import { PaymentMethodSelector } from '@/components/packages/PaymentMethodSelector';
 import { sendBundlePurchaseEmail } from '@/utils/emailHelpers';
 import type { Tables } from '@/types/database.types';
 

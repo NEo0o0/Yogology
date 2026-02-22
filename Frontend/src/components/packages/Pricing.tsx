@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { Package, Check, Star, ArrowRight, Loader2, Infinity } from 'lucide-react';
 
-import { usePackages } from '../hooks';
-import { SeedPackagesButton } from './SeedPackagesButton';
-import type { Tables } from '../types/database.types';
+import { usePackages } from '@/hooks';
+import { SeedPackagesButton } from '@/components/admin/SeedPackagesButton';
+import type { Tables } from '@/types/database.types';
 
 type DbPackage = Tables<'packages'>;
 

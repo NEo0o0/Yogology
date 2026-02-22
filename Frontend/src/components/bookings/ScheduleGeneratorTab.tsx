@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Calendar, Zap, Clock, Loader2 } from 'lucide-react';
-import { useApp } from '../context/AppContext';
-import { useClassTypes, useRooms } from '../hooks';
+import { useApp } from '@/context/AppContext';
+import { useClassTypes, useRooms } from '@/hooks';
 import { GenerateScheduleModal } from './GenerateScheduleModal';
-import { ConfirmationModal } from './ConfirmationModal';
+import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
 import { toast } from 'sonner';
 import { supabase } from '@/utils/supabase/client';
-import { DEFAULT_ROOMS } from '../constants/rooms';
+import { DEFAULT_ROOMS } from '@/constants/rooms';
 import { formatToThaiDayOfWeek, formatToThaiDateLong } from '@/utils/dateHelpers';
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];

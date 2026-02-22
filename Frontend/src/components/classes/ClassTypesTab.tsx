@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { Plus, Edit2, Trash2, X, Check, Sparkles } from 'lucide-react';
-import { useClassTypes } from '../hooks';
-import type { Tables } from '../types/database.types';
-import { ConfirmationModal } from './ConfirmationModal';
-import { ImageUpload } from './ImageUpload';
-import { MultiImageUpload } from './MultiImageUpload';
+import { useClassTypes } from '@/hooks';
+import type { Tables } from '@/types/database.types';
+import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
+import { ImageUpload } from '@/components/ui/ImageUpload';
+import { MultiImageUpload } from '@/components/ui/MultiImageUpload';
 import { toast } from 'sonner';
 
 type ClassType = Tables<'class_types'>;

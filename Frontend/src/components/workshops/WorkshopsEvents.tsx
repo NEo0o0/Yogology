@@ -3,15 +3,15 @@
 import { useRouter } from 'next/navigation';
 import { useState, useMemo } from 'react';
 import { Calendar, Clock, DollarSign, MapPin, ArrowRight, Loader2, CheckCircle, Camera } from 'lucide-react';
-import { EventDetailModal } from './EventDetailModal';
-import { PastEventModal } from './PastEventModal';
-import { GalleryManagementModal } from './GalleryManagementModal';
-import { supabase } from '../utils/supabase/client';
-import { useAuth } from '../hooks/useAuth';
-import { useWorkshops } from '../hooks';
+import { EventDetailModal } from '@/components/bookings/EventDetailModal';
+import { PastEventModal } from '@/components/bookings/PastEventModal';
+import { GalleryManagementModal } from '@/components/admin/GalleryManagementModal';
+import { supabase } from '@/utils/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
+import { useWorkshops } from '@/hooks';
 import { toast } from 'sonner';
 import { formatToThaiTime, formatToThaiDateLong } from '@/utils/dateHelpers';
-import type { Tables, TablesInsert } from '../types/database.types';
+import type { Tables, TablesInsert } from '@/types/database.types';
 
 type Workshop = Tables<'classes'>;
 

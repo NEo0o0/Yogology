@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Search, Users as UsersIcon, MoreVertical, Shield, ShieldOff } from 'lucide-react';
 import { supabase } from '@/utils/supabase/client';
-import { MemberDetailsModal } from './MemberDetailsModal';
-import { AssignPackageModal } from './AssignPackageModal';
-import { EditProfileModal } from './EditProfileModal';
-import { ConfirmationModal } from './ConfirmationModal';
-import { Avatar } from './Avatar';
+import { MemberDetailsModal } from '@/components/admin/MemberDetailsModal';
+import { AssignPackageModal } from '@/components/admin/AssignPackageModal';
+import { EditProfileModal } from '@/components/profile/EditProfileModal';
+import { ConfirmationModal } from '@/components/ui/ConfirmationModal';
+import { Avatar } from '@/components/profile/UserProfileAvatar';
 import { toast } from 'sonner';
 
 type FilterType = 'all' | 'unlimited' | 'class-pack' | 'drop-in' | 'instructors';
